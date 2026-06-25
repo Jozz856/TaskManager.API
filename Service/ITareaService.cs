@@ -6,6 +6,7 @@ namespace TaskManager.API.Services
     public interface ITareaService
     {
 
+
         Task<List<Tarea>> ObtenerTodas();
 
 
