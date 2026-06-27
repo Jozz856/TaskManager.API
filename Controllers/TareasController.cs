@@ -165,12 +165,6 @@ namespace TaskManager.API.Controllers
 
 
 
-
-
-        // ==========================================
-        // ACTUALIZAR
-        // ==========================================
-
         [HttpPut("{id}")]
         public async Task<IActionResult> EditarTarea(
             int id,
