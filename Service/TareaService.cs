@@ -201,17 +201,13 @@ namespace TaskManager.API.Services
 
 
 
-        // =====================================
-        // ELIMINAR
-        // =====================================
+
 
         public async Task Eliminar(int id)
         {
 
-
             var tarea =
                 await _repository.ObtenerPorId(id);
-
 
 
             if (tarea == null)
@@ -222,18 +218,14 @@ namespace TaskManager.API.Services
             }
 
 
+            var titulo = tarea.Titulo;
 
 
-
-
-            // ==============================
-            // LOG ELIMINAR
-            // ==============================
 
 
             var log = new LogTarea
             {
-                TareaId = tarea.Id,
+                TareaId = id,
 
                 Usuario = "Sistema",
 
@@ -243,17 +235,19 @@ namespace TaskManager.API.Services
 
                 Detalle =
                 "Se eliminó la tarea: "
-                + tarea.Titulo
+                + titulo
             };
-
 
 
             _contexto.LogTareas.Add(log);
 
 
+            await _contexto.SaveChangesAsync();
+
+
+
 
             await _repository.Eliminar(tarea);
-
 
 
             await _contexto.SaveChangesAsync();

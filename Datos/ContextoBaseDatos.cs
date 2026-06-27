@@ -21,6 +21,7 @@ namespace TaskManager.API.Datos
 
         public DbSet<CatPrioridad> Prioridades { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,10 +50,17 @@ namespace TaskManager.API.Datos
             modelBuilder.Entity<CatPrioridad>()
                 .HasKey(x => x.PrioridadId);
 
+            modelBuilder.Entity<LogTarea>()
+              .ToTable("LogTareas");
+
 
             modelBuilder.Entity<LogTarea>()
                 .HasKey(x => x.LogId);
 
+
+            modelBuilder.Entity<LogTarea>()
+                .Property(x => x.LogId)
+                .ValueGeneratedOnAdd();
 
 
             base.OnModelCreating(modelBuilder);

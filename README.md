@@ -1,120 +1,264 @@
-\# TaskManager API
+#  Task Manager
 
+## Descripción
 
+Task Manager es una aplicación web desarrollada para la administración de tareas mediante una arquitectura cliente-servidor. La solución permite crear, consultar, actualizar y eliminar tareas, así como administrar usuarios y consultar un historial de movimientos realizados sobre cada tarea.
 
-\## Descripción
+El proyecto fue desarrollado utilizando **ASP.NET Core Web API** para el backend y **React** para el frontend, implementando autenticación mediante JWT, persistencia de datos con **Entity Framework Core** y **SQL Server** como base de datos.
 
-API REST para administración de tareas desarrollada con ASP.NET Core.
+---
 
+# Arquitectura utilizada
 
+El proyecto implementa una **Arquitectura por Capas**, separando claramente las responsabilidades de cada componente.
 
-\## Arquitectura
+## Backend
 
+* Controllers
+* Services
+* Repositories
+* DTOs
+* Models
+* Data (DbContext)
 
+Esta separación facilita el mantenimiento, reutilización del código y aplicación de principios SOLID.
 
-El proyecto utiliza arquitectura por capas:
+## Frontend
 
+El proyecto en React está organizado en:
 
+* Components
+* Pages
+* API Services
+* CSS
+* Routing
 
-\- Controllers
+---
 
-\- DTOs
+# Tecnologías utilizadas
 
-\- Repositories
+## Backend
 
-\- Services
+* ASP.NET Core Web API (.NET 8)
+* C#
+* Entity Framework Core
+* SQL Server
+* JWT Authentication
+* Swagger / OpenAPI
 
-\- Datos
+## Frontend
 
-\- Models
+* React
+* JavaScript
+* Axios
+* React Router
+* CSS
 
+---
 
+# Funcionalidades implementadas
 
-\## Tecnologías utilizadas
+## Gestión de tareas
 
+* Crear tarea
+* Editar tarea
+* Eliminar tarea
+* Consultar tarea por ID
+* Listar tareas
+* Filtrar por Estado
+* Filtrar por Prioridad
 
+Cada tarea contiene:
 
-\- ASP.NET Core Web API
+* Título
+* Descripción
+* Estado
+* Prioridad
+* Fecha de creación
+* Fecha de actualización
 
-\- Entity Framework Core
+---
 
-\- SQL Server
+## Gestión de usuarios
 
-\- C#
+Se implementó un módulo adicional para administración de usuarios.
 
-\- JWT (pendiente si lo agregamos)
+Permite:
 
+* Registrar usuario
+* Editar usuario
+* Eliminar usuario
+* Listar usuarios
 
+---
 
-\## Decisiones técnicas
+## Historial de movimientos
 
+Se implementó un módulo de auditoría que registra automáticamente cada movimiento realizado sobre las tareas.
 
+Se registran acciones de:
 
-\- Uso de DTOs para separar modelos de persistencia.
+* Crear
+* Editar
+* Eliminar
 
-\- Repository Pattern para acceso a datos.
+Cada registro almacena:
 
-\- Service Layer para separar lógica de negocio.
+* Usuario
+* Fecha
+* Acción
+* Tarea
+* Descripción del movimiento
 
-\- Entity Framework Core para manejo de base de datos.
+---
 
+# Seguridad
 
+La aplicación implementa autenticación mediante JSON Web Token (JWT).
 
-\## Ejecución
+El flujo de autenticación consiste en:
 
+1. Inicio de sesión.
+2. Generación del Token JWT.
+3. Almacenamiento del Token en Local Storage.
+4. Envío automático del Token mediante el encabezado Authorization: Bearer.
+5. Protección de los endpoints mediante el atributo `[Authorize]`.
 
+---
 
-1\. Clonar repositorio.
+# Documentación de la API
 
+La API cuenta con documentación mediante Swagger.
 
+Al ejecutar el proyecto puede consultarse desde:
 
-2\. Configurar cadena de conexión en:
+```
+https://localhost:7021/swagger
+```
 
+---
 
+# Base de datos
 
+Motor utilizado:
+
+* SQL Server
+
+Tablas principales:
+
+* Usuarios
+* Tareas
+* CatEstados
+* CatPrioridades
+* LogTareas
+
+---
+
+# Cómo ejecutar el proyecto
+
+## Backend
+
+1. Abrir la solución en Visual Studio.
+2. Restaurar paquetes NuGet.
+3. Configurar la cadena de conexión en:
+
+```
 appsettings.json
+```
 
+4. Ejecutar el proyecto.
 
+La API estará disponible en:
 
-3\. Ejecutar migraciones:
+```
+https://localhost:7021
+```
 
+---
 
+## Frontend
 
-dotnet ef database update
+Ingresar al proyecto React.
 
+Instalar dependencias:
 
+```
+npm install
+```
 
-4\. Ejecutar API:
+Ejecutar:
 
+```
+npm run dev
+```
 
+La aplicación estará disponible en:
 
-dotnet run
+```
+http://localhost:5174
+```
 
+---
 
+# Variables de configuración
 
-\## Base de datos
+Las configuraciones sensibles se encuentran en:
 
+```
+appsettings.json
+```
 
+Incluyen:
 
-SQL Server
+* Cadena de conexión SQL Server
+* Llave JWT
+* Issuer
+* Audience
 
+---
 
+# Decisiones técnicas
 
-\## Endpoints principales
+Durante el desarrollo se tomaron las siguientes decisiones:
 
+* Uso de DTOs para desacoplar la API del modelo de datos.
+* Implementación de arquitectura por capas para mejorar mantenibilidad.
+* Entity Framework Core como ORM para acceso a datos.
+* SQL Server como motor de persistencia.
+* Autenticación basada en JWT.
+* Consumo de servicios mediante Axios.
+* Componentización en React.
+* Registro automático de movimientos mediante una tabla de Logs para auditoría.
 
+---
 
-GET /api/tareas
+# Funcionalidades adicionales
 
+Además de los requerimientos solicitados, se implementaron:
 
+* Dashboard principal.
+* Administración de usuarios.
+* Historial de movimientos.
+* Filtros por Estado y Prioridad.
+* Validaciones básicas.
+* Manejo de errores HTTP.
+* Diseño responsive básico.
 
-POST /api/tareas
+---
 
+# Evidencia
 
+Se incluyen:
 
-PUT /api/tareas/{id}
+* Código fuente.
+* Script de base de datos SQL Server.
+* Capturas de pantalla.
+* Video demostrativo del funcionamiento.
 
+---
 
+# Autor
 
-DELETE /api/tareas/{id}
+*Jocelyn Andrade*
 
+Desarrollado como ejercicio técnico para proceso de selección.

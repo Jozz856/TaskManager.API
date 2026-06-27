@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using TaskManager.API.DTOs;
 using TaskManager.API.Modelos;
 using TaskManager.API.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManager.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class TareasController : ControllerBase
     {
@@ -20,10 +22,7 @@ namespace TaskManager.API.Controllers
 
 
 
-        // ==========================================
-        // OBTENER TODAS
-        // ==========================================
-
+    
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TareaRespuestaDto>>> ObtenerTareas()
         {
@@ -62,9 +61,6 @@ namespace TaskManager.API.Controllers
 
 
 
-        // ==========================================
-        // OBTENER POR ID
-        // ==========================================
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TareaRespuestaDto>> ObtenerTarea(int id)
@@ -160,7 +156,7 @@ namespace TaskManager.API.Controllers
                 return BadRequest(new
                 {
                     mensaje = "Error al crear tarea",
-                    detalle = ex.Message
+                    detalle = ex.InnerException?.Message ?? ex.Message
                 });
             }
         }
@@ -210,13 +206,11 @@ namespace TaskManager.API.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new
                 {
                     mensaje = "Error al actualizar tarea",
-                    detalle = ex.Message
+                    detalle = ex.InnerException?.Message ?? ex.Message
                 });
-
             }
 
         }
@@ -228,9 +222,7 @@ namespace TaskManager.API.Controllers
 
 
 
-        // ==========================================
-        // ELIMINAR
-        // ==========================================
+        
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> EliminarTarea(int id)
@@ -248,13 +240,12 @@ namespace TaskManager.API.Controllers
             }
             catch (Exception ex)
             {
-
                 return BadRequest(new
                 {
-                    mensaje = "Error al eliminar tarea",
-                    detalle = ex.Message
+                    mensaje = ex.Message,
+                    detalle = ex.InnerException?.Message,
+                    stack = ex.StackTrace
                 });
-
             }
 
         }
@@ -265,9 +256,7 @@ namespace TaskManager.API.Controllers
 
 
 
-        // ==========================================
-        // FILTRAR
-        // ==========================================
+      
 
         [HttpGet("Filtrar")]
         public async Task<ActionResult<IEnumerable<TareaRespuestaDto>>> FiltrarTareas(
@@ -331,5 +320,7 @@ namespace TaskManager.API.Controllers
         }
 
 
+
     }
+
 }
