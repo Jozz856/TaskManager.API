@@ -1,18 +1,25 @@
-#  Task Manager
+# Task Manager
 
-## Descripción
+Aplicación web para la administración de tareas mediante una arquitectura cliente-servidor.
 
-Task Manager es una aplicación web desarrollada para la administración de tareas mediante una arquitectura cliente-servidor. La solución permite crear, consultar, actualizar y eliminar tareas, así como administrar usuarios y consultar un historial de movimientos realizados sobre cada tarea.
+El sistema permite gestionar tareas, usuarios y consultar un historial de movimientos realizados sobre cada tarea.
 
-El proyecto fue desarrollado utilizando **ASP.NET Core Web API** para el backend y **React** para el frontend, implementando autenticación mediante JWT, persistencia de datos con **Entity Framework Core** y **SQL Server** como base de datos.
+Desarrollado utilizando:
+
+* ASP.NET Core Web API (.NET 8)
+* React
+* Entity Framework Core
+* SQL Server
+* JWT Authentication
+* Docker
 
 ---
 
-# Arquitectura utilizada
-
-El proyecto implementa una **Arquitectura por Capas**, separando claramente las responsabilidades de cada componente.
+# Arquitectura
 
 ## Backend
+
+Implementa una arquitectura por capas:
 
 * Controllers
 * Services
@@ -21,17 +28,17 @@ El proyecto implementa una **Arquitectura por Capas**, separando claramente las 
 * Models
 * Data (DbContext)
 
-Esta separación facilita el mantenimiento, reutilización del código y aplicación de principios SOLID.
+Permite separar responsabilidades, facilitar mantenimiento y aplicar buenas prácticas de desarrollo.
 
 ## Frontend
 
-El proyecto en React está organizado en:
+Aplicación desarrollada en React organizada en:
 
 * Components
 * Pages
-* API Services
-* CSS
+* Services API
 * Routing
+* CSS
 
 ---
 
@@ -43,7 +50,7 @@ El proyecto en React está organizado en:
 * C#
 * Entity Framework Core
 * SQL Server
-* JWT Authentication
+* JWT
 * Swagger / OpenAPI
 
 ## Frontend
@@ -56,85 +63,65 @@ El proyecto en React está organizado en:
 
 ---
 
-# Funcionalidades implementadas
+# Funcionalidades
 
-## Gestión de tareas
+## Autenticación
 
-* Crear tarea
-* Editar tarea
-* Eliminar tarea
-* Consultar tarea por ID
-* Listar tareas
-* Filtrar por Estado
-* Filtrar por Prioridad
-
-Cada tarea contiene:
-
-* Título
-* Descripción
-* Estado
-* Prioridad
-* Fecha de creación
-* Fecha de actualización
+* Inicio de sesión.
+* Generación de JWT.
+* Protección de endpoints mediante autorización.
+* Manejo de sesión mediante Local Storage.
 
 ---
 
-## Gestión de usuarios
-
-Se implementó un módulo adicional para administración de usuarios.
+## Gestión de tareas
 
 Permite:
 
-* Registrar usuario
-* Editar usuario
-* Eliminar usuario
-* Listar usuarios
+* Crear tareas.
+* Consultar tareas.
+* Editar tareas.
+* Eliminar tareas.
+* Filtrar por estado.
+* Filtrar por prioridad.
+
+Información almacenada:
+
+* Título.
+* Descripción.
+* Estado.
+* Prioridad.
+* Fecha de creación.
+* Fecha de actualización.
+
+---
+
+## Administración de usuarios
+
+Incluye:
+
+* Registro de usuarios.
+* Edición.
+* Eliminación.
+* Consulta de usuarios.
 
 ---
 
 ## Historial de movimientos
 
-Se implementó un módulo de auditoría que registra automáticamente cada movimiento realizado sobre las tareas.
+Cuenta con un módulo de auditoría que registra:
 
-Se registran acciones de:
-
-* Crear
-* Editar
-* Eliminar
+* Creación de tareas.
+* Actualización de tareas.
+* Eliminación de tareas.
 
 Cada registro almacena:
 
-* Usuario
-* Fecha
-* Acción
-* Tarea
-* Descripción del movimiento
-
----
-
-# Seguridad
-
-La aplicación implementa autenticación mediante JSON Web Token (JWT).
-
-El flujo de autenticación consiste en:
-
-1. Inicio de sesión.
-2. Generación del Token JWT.
-3. Almacenamiento del Token en Local Storage.
-4. Envío automático del Token mediante el encabezado Authorization: Bearer.
-5. Protección de los endpoints mediante el atributo `[Authorize]`.
-
----
-
-# Documentación de la API
-
-La API cuenta con documentación mediante Swagger.
-
-Al ejecutar el proyecto puede consultarse desde:
-
-```
-https://localhost:7021/swagger
-```
+* Usuario.
+* Fecha.
+* Acción realizada.
+* Tarea relacionada.
+* Descripción del movimiento.
 
 ---
 
@@ -142,7 +129,7 @@ https://localhost:7021/swagger
 
 Motor utilizado:
 
-* SQL Server
+SQL Server
 
 Tablas principales:
 
@@ -154,31 +141,41 @@ Tablas principales:
 
 ---
 
-# Cómo ejecutar el proyecto
+# Documentación API
 
-## Backend
-
-1. Abrir la solución en Visual Studio.
-2. Restaurar paquetes NuGet.
-3. Configurar la cadena de conexión en:
+Swagger disponible en:
 
 ```
-appsettings.json
-```
-
-4. Ejecutar el proyecto.
-
-La API estará disponible en:
-
-```
-https://localhost:7021
+http://localhost:8080/swagger
 ```
 
 ---
 
-## Frontend
+# Ejecución Backend
 
-Ingresar al proyecto React.
+Ubicarse en la carpeta:
+
+```
+TaskManager.API
+```
+
+Instalar dependencias:
+
+```
+dotnet restore
+```
+
+Ejecutar:
+
+```
+dotnet run
+```
+
+---
+
+# Ejecución Frontend
+
+Ingresar a la carpeta React:
 
 Instalar dependencias:
 
@@ -192,7 +189,7 @@ Ejecutar:
 npm run dev
 ```
 
-La aplicación estará disponible en:
+Aplicación disponible en:
 
 ```
 http://localhost:5174
@@ -200,65 +197,60 @@ http://localhost:5174
 
 ---
 
-# Variables de configuración
+# Docker
 
-Las configuraciones sensibles se encuentran en:
+La API Backend cuenta con soporte mediante Docker.
+
+Construcción de imagen:
 
 ```
-appsettings.json
+docker build -t taskmanager-api .
 ```
 
-Incluyen:
+Crear contenedor:
 
-* Cadena de conexión SQL Server
-* Llave JWT
-* Issuer
-* Audience
+```
+docker run -d -p 8080:8080 --name taskmanager-api-container taskmanager-api
+```
+
+Verificar contenedor:
+
+```
+docker ps
+```
+
+Detener:
+
+```
+docker stop taskmanager-api-container
+```
 
 ---
 
 # Decisiones técnicas
 
-Durante el desarrollo se tomaron las siguientes decisiones:
-
-* Uso de DTOs para desacoplar la API del modelo de datos.
-* Implementación de arquitectura por capas para mejorar mantenibilidad.
-* Entity Framework Core como ORM para acceso a datos.
-* SQL Server como motor de persistencia.
-* Autenticación basada en JWT.
-* Consumo de servicios mediante Axios.
-* Componentización en React.
-* Registro automático de movimientos mediante una tabla de Logs para auditoría.
-
----
-
-# Funcionalidades adicionales
-
-Además de los requerimientos solicitados, se implementaron:
-
-* Dashboard principal.
-* Administración de usuarios.
-* Historial de movimientos.
-* Filtros por Estado y Prioridad.
-* Validaciones básicas.
-* Manejo de errores HTTP.
-* Diseño responsive básico.
+* Uso de DTOs para desacoplar modelos.
+* Arquitectura por capas.
+* Entity Framework Core como ORM.
+* JWT para seguridad.
+* Axios para consumo de API.
+* React con componentes reutilizables.
+* Auditoría mediante tabla de logs.
 
 ---
 
 # Evidencia
 
-Se incluyen:
+Incluye:
 
 * Código fuente.
-* Script de base de datos SQL Server.
-* Capturas de pantalla.
-* Video demostrativo del funcionamiento.
+* Script SQL Server.
+* Video demostrativo.
 
 ---
 
 # Autor
 
-*Jocelyn Andrade*
+Jocelyn Andrade
 
-Desarrollado como ejercicio técnico para proceso de selección.
+Ejercicio técnico para proceso de selección.

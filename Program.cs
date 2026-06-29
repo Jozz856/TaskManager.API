@@ -8,10 +8,13 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddControllers();
+
 
 builder.Services.AddScoped<ITareaRepository, TareaRepository>();
 builder.Services.AddScoped<ITareaService, TareaService>();
+
 
 builder.Services.AddDbContext<ContextoBaseDatos>(opciones =>
     opciones.UseSqlServer(
@@ -19,17 +22,20 @@ builder.Services.AddDbContext<ContextoBaseDatos>(opciones =>
     ));
 
 
+// CORS para React Docker
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("React", policy =>
     {
-        policy.WithOrigins("http://localhost:5174")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
 
+// JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
@@ -44,33 +50,41 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidAudience = builder.Configuration["Jwt:Audience"],
 
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            Encoding.UTF8.GetBytes(
+                builder.Configuration["Jwt:Key"]!
+            )
         )
     };
 });
 
+
 builder.Services.AddAuthorization();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
 
+// Swagger disponible en Docker
 app.UseSwagger();
-
 app.UseSwaggerUI();
 
 
 app.UseHttpsRedirection();
 
+
 app.UseCors("React");
+
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
+
 app.MapControllers();
 
-app.Run();
 
+app.Run();
